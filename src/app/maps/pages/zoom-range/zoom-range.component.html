@@ -1,12 +1,12 @@
 <div #zoomRangeMap class="map-container"></div>
 
 <div class="row">
-    <div class="col-4">
+    <div class="col-12">
         <label for="" class="form-label">
-            Zoom: 16
+            Zoom: {{zoomLevel | number:'2.0-2' }}
             -Lng, Lat: [123, 456]
         </label>
-        <input type="range" class="form-range">
+        <input type="range" class="form-range" [value]="zoomLevel" min="0" max="18" #zoomInput (input)="zoomChanged(zoomInput.value)">
         <button class="btn btn-primary  btn-sm" (click)="zoomOut()">
             -
         </button>
