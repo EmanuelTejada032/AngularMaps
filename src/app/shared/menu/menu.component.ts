@@ -1,16 +1,39 @@
 import { Component, OnInit } from '@angular/core';
 
+
+interface MenuItem {
+  path: string;
+  name: string;
+}
+
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styles: [
+    `li{
+      cursor: pointer
+    }`
   ]
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent {
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+  menuItems: MenuItem[] = [
+    {
+      path: 'maps/fullscreen',
+      name: 'FullScreen Map'
+    },
+    {
+      path: 'maps/zoom-range',
+      name: 'Zoom Range'
+    },
+    {
+      path: 'maps/markers',
+      name: 'Markers'
+    },
+    {
+      path: 'maps/properties',
+      name: 'Properties'
+    },
+  ]
 
 }
