@@ -1,1 +1,13 @@
-<p>markers works!</p>
+
+<ul class="list-group">
+    <li class="list-group-item list-group-item-info" 
+        (click)="createMarker()">+ Add marker</li>
+
+    <li class="list-group-item list-group-item" 
+        (click)="goToMarkedLocation(marker)" 
+        *ngFor="let marker of markers; let i = index" 
+        [ngStyle]="{backgroundColor: marker.color}">Marker {{i+1}}</li>
+</ul>
+
+
+<div #zoomRangeMap class="map-container"></div>
