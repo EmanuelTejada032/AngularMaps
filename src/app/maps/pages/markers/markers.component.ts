@@ -66,6 +66,8 @@ export class MarkersComponent implements AfterViewInit {
     .setLngLat(this.mapCenter)
     .addTo(this.map);
 
+    this.addOnMarkerDragEndEvent(marker);
+
     const customMarker = {
         color,
         marker
@@ -86,13 +88,13 @@ export class MarkersComponent implements AfterViewInit {
 
 
   saveCreatedMarkers(){
-
     const markers: any = this.markers.map( marker => {
       return {
         markerColor : marker.color,
         markerLngLat: marker.marker.getLngLat()
       }
     })
+    
 
     localStorage.setItem('markers', JSON.stringify(markers));
   }
@@ -101,18 +103,31 @@ export class MarkersComponent implements AfterViewInit {
     if(!localStorage.getItem('markers')){
       return;
     }
-
     const markers = JSON.parse(localStorage.getItem('markers')!)
     markers.forEach( (marker:any) => {
-      this.markers.push({ marker: new mapboxgl.Marker({
-              draggable: true,
-              color: marker.markerColor
-          })
-          .setLngLat(marker.markerLngLat)
-          .addTo(this.map),
+      const newMarker = new mapboxgl.Marker({
+        draggable: true,
+        color: marker.markerColor
+      })
+      .setLngLat(marker.markerLngLat)
+      .addTo(this.map)
+      this.addOnMarkerDragEndEvent(newMarker);
+      this.markers.push({ 
+        marker:newMarker,
         color: marker.markerColor
       })
     });
   }
 
+  addOnMarkerDragEndEvent(marker: mapboxgl.Marker){
+    marker.on('dragend', () => {
+      this.saveCreatedMarkers();
+    })
+  }
+
+  deleteMarker(index: number){
+    this.markers[index].marker?.remove();
+    this.markers.splice(index, 1);
+    this.saveCreatedMarkers();
+  }
 }
